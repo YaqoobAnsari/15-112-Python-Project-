@@ -527,7 +527,7 @@ def redrawGameWindow(man,player2,count,PlayerOneGoals,PlayerTwoGoals,ballobj):
 
 
 #Mainloop for the SinglePlayerGame.
-def singlePlayerGame(bg,c1,c2,gameround):
+def singlePlayerGame(bg,c1,c2,gameround,difficulty):
         
    
     count = 0
@@ -629,23 +629,24 @@ def singlePlayerGame(bg,c1,c2,gameround):
         #initiates the player to jump..making the jump random during its
         #patrol like movements.
 
-        # Checking if a number divisible by 3 is found.
-        if  (ballobj.ballcorX > 1000 and ballobj.ballcorY < 1200 and ballobj.ballcorY < player2.y):
+        if difficulty == "Hard":
+            #print('hard')
+            # Checking if a number divisible by 3 is found.
+            if  (ballobj.ballcorX > 1000 and ballobj.ballcorY < 1200 and ballobj.ballcorY < player2.y):
 
-                # Making the player jump.
-                player2.isJump = True
-                player2.left = False
-                player2.right = False
-                #pygame.time.delay(100)
+                    # Making the player jump.
+                    player2.isJump = True
+                    player2.left = False
+                    player2.right = False
+                    #pygame.time.delay(100)
 
-                #if not(player2.isJump):
-                    
+                    #if not(player2.isJump):
+                        
 
-        # If not, then the  player keeps on patrolling.         
-        else:
-                
+            # If not, then the  player keeps on patrolling.         
+            else:
                 player2.x -= player2.vel
-                
+            
                 aicount += 1
                 if player2.x == 950:
                         player2.vel *= -1
@@ -662,6 +663,28 @@ def singlePlayerGame(bg,c1,c2,gameround):
                         player2.left = False
                         player2.right = True
                         player2.isJump = False
+
+        
+        if difficulty == "Easy" or difficulty == 'Normal':
+            #print('Easy Normal')
+            player2.x -= player2.vel
+        
+            aicount += 1
+            if player2.x == 950:
+                    player2.vel *= -1
+                    player2.left = True
+                    player2.right = False
+                    player2.isJump = False
+
+                    # Increaisng the number randomly.
+                    aicount += random.randint(2,5)
+                    
+            if player2.x == 1200:
+                    
+                    player2.vel *= -1
+                    player2.left = False
+                    player2.right = True
+                    player2.isJump = False
 
       
         if player2.isJump:
@@ -1195,6 +1218,7 @@ def chooseDifficulty(character1,character2,bg):
 
     running = True
     default = True
+    difficulty = ''
 
     # The loop that allows user to choose the option.
     while (running):
@@ -1216,27 +1240,27 @@ def chooseDifficulty(character1,character2,bg):
                     
                     # call your easy thing here
                     loadingbar(0)
-                    singlePlayerGame(bg,character1,character2,1)
+                    singlePlayerGame(bg,character1,character2,1,'Easy')
                     loadingbar(1)
-                    singlePlayerGame(bg,character1,character2,2)
+                    singlePlayerGame(bg,character1,character2,2,'Easy')
 
                 # Checking if 'NORMAL' button is pressed.    
                 if ( x > 530 and x <860 and y > 370 and y < 420 ):
                     
                     # call your normal thing here
                     loadingbar(0)
-                    singlePlayerGame(bg,character1,character2,1)
+                    singlePlayerGame(bg,character1,character2,1,'Normal')
                     loadingbar(1)
-                    singlePlayerGame(bg,character1,character2,2)
+                    singlePlayerGame(bg,character1,character2,2,'Normal')
 
                 # Checking if 'HARD' button is pressed.    
                 if ( x > 530 and x <860 and y > 470 and y < 520 ):
                     
                     # call your hard thing here
                     loadingbar(0)
-                    singlePlayerGame(bg,character1,character2,1)
+                    singlePlayerGame(bg,character1,character2,1,'Hard')
                     loadingbar(1)
-                    singlePlayerGame(bg,character1,character2,2)
+                    singlePlayerGame(bg,character1,character2,2,'Hard')
                     
         pygame.display.update()
 
